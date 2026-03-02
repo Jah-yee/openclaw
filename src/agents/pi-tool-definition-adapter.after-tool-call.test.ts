@@ -90,7 +90,7 @@ describe("pi tool definition adapter after_tool_call", () => {
     expect(hookMocks.runner.runAfterToolCall).not.toHaveBeenCalled();
   });
 
-  it("consumes adjusted params for wrapped tools to avoid leaks", async () => {
+  it("does not consume adjusted params in adapter for wrapped tools", async () => {
     hookMocks.isToolWrappedWithBeforeToolCallHook.mockReturnValue(true);
     const defs = toToolDefinitions([createReadTool()]);
     const def = defs[0];
@@ -106,6 +106,6 @@ describe("pi tool definition adapter after_tool_call", () => {
     );
 
     expect(hookMocks.runBeforeToolCallHook).not.toHaveBeenCalled();
-    expect(hookMocks.consumeAdjustedParamsForToolCall).toHaveBeenCalledWith("call-wrapped");
+    expect(hookMocks.consumeAdjustedParamsForToolCall).not.toHaveBeenCalled();
   });
 });
