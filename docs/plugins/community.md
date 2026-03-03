@@ -69,3 +69,8 @@ Use this format when adding entries:
   npm: `openclaw-claude-code`
   repo: `https://github.com/Phoenizard/openclaw-claude-code`
   install: `openclaw plugins install openclaw-claude-code`
+
+- **QQbot** — The OpenClaw channel plugin for QQ (500M+ MAU). Supports C2C private chats, group chats @messages, and channel messages.
+  npm: `@sliverp/qqbot`
+  repo: `https://github.com/sliverp/qqbot`
+  install: `openclaw plugins install @sliverp/qqbot`
