@@ -159,14 +159,14 @@ describe("feishuOutbound.sendText local-image auto-convert", () => {
     await sendText({
       cfg: {} as any,
       to: "chat_1",
-      text: "⚠️ 🛠️ Exec: vercel env add VITE_API_URL production --token=secret 2>&1 << 'EOF' failed: Vercel CLI 50.23.2",
+      text: "⚠️ 🛠️ Exec: vercel env add VITE_API_URL production 2>&1 << 'EOF' failed: Vercel CLI 50.23.2",
       accountId: "main",
     });
 
     expect(sendMarkdownCardFeishuMock).toHaveBeenCalledWith(
       expect.objectContaining({
         to: "chat_1",
-        text: "**Command execution failed. This usually means the host command or environment is misconfigured; please verify the command locally or ask the operator to review the OpenClaw gateway configuration.**\n```Technical details: ⚠️ 🛠️ Exec: vercel env add VITE_API_URL production --token=secret 2>&1 << 'EOF' failed: Vercel CLI 50.23.2```",
+        text: "**Command execution failed. This usually means the host command or environment is misconfigured; please verify the command locally or ask the operator to review the OpenClaw gateway configuration.**\n```Technical details: ⚠️ 🛠️ Exec: vercel env add VITE_API_URL production 2>&1 << 'EOF' failed: Vercel CLI 50.23.2```",
         accountId: "main",
       }),
     );
