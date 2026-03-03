@@ -99,3 +99,13 @@ Use this format when adding entries:
   npm: `openclaw-plugin-tokenranger`
   repo: `https://github.com/peterjohannmedina/openclaw-plugin-tokenranger`
   install: `openclaw plugins install openclaw-plugin-tokenranger`
+
+- **DingTalk** — Channel plugin for DingTalk (190M+ MAU). Supports Stream Mode for enterprise deployments.
+  npm: `@openclaw/openclaw-dingtalk`
+  repo: `https://github.com/openclaw/openclaw-dingtalk`
+  install: `openclaw plugins install @openclaw/openclaw-dingtalk`
+
+- **Nutrient** — Document processing plugin. HTML to PDF conversion and more.
+  npm: `@nutrient-sdk/nutrient-openclaw`
+  repo: `https://github.com/PSPDFKit-labs/nutrient-openclaw`
+  install: `openclaw plugins install @nutrient-sdk/nutrient-openclaw`
