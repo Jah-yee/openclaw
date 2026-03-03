@@ -75,7 +75,7 @@ function isRichConsoleEnv(): boolean {
   return term.length > 0 && term !== "dumb";
 }
 
-function getCachedChalk(): ChalkInstance {
+function getColorForConsole(): ChalkInstance {
   const hasForceColor =
     typeof process.env.FORCE_COLOR === "string" &&
     process.env.FORCE_COLOR.trim().length > 0 &&
@@ -91,7 +91,7 @@ function getCachedChalk(): ChalkInstance {
 let cachedChalkInstance: ChalkInstance | undefined;
 function getCachedChalk(): ChalkInstance {
   if (!cachedChalkInstance) {
-    cachedChalkInstance = getCachedChalk();
+    cachedChalkInstance = getColorForConsole();
   }
   return cachedChalkInstance;
 }
