@@ -1,5 +1,17 @@
 #!/usr/bin/env node
 
+// Short-circuit --version to avoid full initialization
+if (process.argv.includes("--version") || process.argv.includes("-v")) {
+  try {
+    const fs = await import("node:fs/promises");
+    const pkg = JSON.parse((await fs.readFile(new URL("package.json", import.meta.url))).toString());
+    console.log(pkg.version);
+    process.exit(0);
+  } catch {
+    // Fallback if package.json can't be read
+  }
+}
+
 import module from "node:module";
 
 // https://nodejs.org/api/module.html#module-compile-cache
