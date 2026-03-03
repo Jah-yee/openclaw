@@ -79,3 +79,8 @@ Use this format when adding entries:
   npm: `@yanhaidao/wecom`
   repo: `https://github.com/TencentCloud-Lighthouse/wecom`
   install: `openclaw plugins install @yanhaidao/wecom`
+
+- **Kudosity SMS** — Cloud SMS channel powered by Kudosity v2 API. Send and receive SMS messages through your Kudosity account.
+  npm: `@openclaw/kudosity-sms`
+  repo: `https://github.com/openclaw/extensions/tree/main/extensions/kudosity-sms`
+  install: `openclaw plugins install @openclaw/kudosity-sms`
