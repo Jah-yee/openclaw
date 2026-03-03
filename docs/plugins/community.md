@@ -74,3 +74,8 @@ Use this format when adding entries:
   npm: `@sliverp/qqbot`
   repo: `https://github.com/sliverp/qqbot`
   install: `openclaw plugins install @sliverp/qqbot`
+
+- **WeCom** — Enterprise WeChat channel plugin for OpenClaw. Enables integration with Enterprise WeChat (WeCom) for enterprise deployments.
+  npm: `@yanhaidao/wecom`
+  repo: `https://github.com/TencentCloud-Lighthouse/wecom`
+  install: `openclaw plugins install @yanhaidao/wecom`
