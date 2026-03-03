@@ -114,3 +114,13 @@ Use this format when adding entries:
   npm: `@baekho-lim/openclaw-secret-wallet`
   repo: `https://github.com/baekho-lim/openclaw-secret-wallet`
   install: `openclaw plugins install @baekho-lim/openclaw-secret-wallet`
+
+- **Linear** — Issue management and project tools via Linear GraphQL API. Webhook routing and integration.
+  npm: `openclaw-linear`
+  repo: `https://github.com/stepandel/openclaw-linear`
+  install: `openclaw plugins install openclaw-linear`
+
+- **AgentSEO** — SEO optimization plugin for OpenClaw. Helps with search engine optimization tasks.
+  npm: `@agentseo/openclaw-plugin`
+  repo: `https://github.com/AgentSEO-dev/agentseo`
+  install: `openclaw plugins install @agentseo/openclaw-plugin --pin`
