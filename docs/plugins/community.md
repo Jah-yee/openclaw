@@ -59,3 +59,8 @@ Use this format when adding entries:
   npm: `@dangoldbj/openclaw-simplex`
   repo: `https://github.com/dangoldbj/openclaw-simplex`
   install: `openclaw plugins install @dangoldbj/openclaw-simplex`
+
+- **Opik** — Open sourceLLMops platform for tracking, evaluation, and debugging. Integrates with OpenClaw for comprehensive experiment tracking.
+  npm: `@comet/opik`
+  repo: `https://github.com/comet-ml/opik`
+  install: `openclaw plugins install @comet/opik`
