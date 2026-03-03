@@ -219,7 +219,7 @@ export async function sendChatMessage(
     });
     return runId;
   } catch (err) {
-    clearTimeout(timeoutId);
+    const error = String(err);
     const error = String(err);
     state.chatRunId = null;
     state.chatStream = null;
