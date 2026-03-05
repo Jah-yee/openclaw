@@ -22,13 +22,11 @@ describe("backup-rotation", () => {
         unlink: vi.fn().mockResolvedValue(undefined),
         rename: vi.fn().mockResolvedValue(undefined),
       };
-      
-      // Temporarily override the constant
-      const originalCount = CONFIG_BACKUP_COUNT;
+
       // We can't easily override the constant, but we can verify the function works
-      
+
       await rotateConfigBackups("/config/openclaw.json", mockFs);
-      
+
       // With default count of 5, it should perform rotations
       expect(mockFs.unlink).toHaveBeenCalled();
     });
@@ -50,12 +48,18 @@ describe("backup-rotation", () => {
 
       // Should unlink the highest numbered backup
       expect(operations).toContain("unlink:/config/openclaw.json.bak.4");
-      
+
       // Should rotate numbered backups
-      expect(operations).toContain("rename:/config/openclaw.json.bak.3->/config/openclaw.json.bak.4");
-      expect(operations).toContain("rename:/config/openclaw.json.bak.2->/config/openclaw.json.bak.3");
-      expect(operations).toContain("rename:/config/openclaw.json.bak.1->/config/openclaw.json.bak.2");
-      
+      expect(operations).toContain(
+        "rename:/config/openclaw.json.bak.3->/config/openclaw.json.bak.4",
+      );
+      expect(operations).toContain(
+        "rename:/config/openclaw.json.bak.2->/config/openclaw.json.bak.3",
+      );
+      expect(operations).toContain(
+        "rename:/config/openclaw.json.bak.1->/config/openclaw.json.bak.2",
+      );
+
       // Should move primary .bak to .bak.1
       expect(operations).toContain("rename:/config/openclaw.json.bak->/config/openclaw.json.bak.1");
     });
@@ -79,7 +83,9 @@ describe("backup-rotation", () => {
         // chmod not provided
       };
 
-      await expect(hardenBackupPermissions("/config/openclaw.json", mockFs)).resolves.toBeUndefined();
+      await expect(
+        hardenBackupPermissions("/config/openclaw.json", mockFs),
+      ).resolves.toBeUndefined();
     });
 
     it("hardens permissions on all backup files", async () => {
@@ -112,7 +118,9 @@ describe("backup-rotation", () => {
       };
 
       // Should not throw
-      await expect(hardenBackupPermissions("/config/openclaw.json", mockFs)).resolves.toBeUndefined();
+      await expect(
+        hardenBackupPermissions("/config/openclaw.json", mockFs),
+      ).resolves.toBeUndefined();
     });
   });
 
@@ -151,11 +159,11 @@ describe("backup-rotation", () => {
       // Should remove orphans
       expect(unlinked).toContain("/config/openclaw.json.bak.12345");
       expect(unlinked).toContain("/config/openclaw.json.bak.before-migration");
-      
+
       // Should NOT remove valid numbered backups
       expect(unlinked).not.toContain("/config/openclaw.json.bak.1");
       expect(unlinked).not.toContain("/config/openclaw.json.bak.2");
-      
+
       // Should NOT remove primary .bak
       expect(unlinked).not.toContain("/config/openclaw.json.bak");
     });
@@ -237,7 +245,7 @@ describe("backup-rotation", () => {
 
       expect(copyIndex).toBeGreaterThan(-1);
       expect(chmodIndex).toBeGreaterThan(copyIndex);
-      
+
       // Should copy current config to .bak
       expect(operations).toContain("copyFile:/config/openclaw.json->/config/openclaw.json.bak");
     });
