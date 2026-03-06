@@ -1127,10 +1127,15 @@ export function startHeartbeatRunner(opts: {
         return { status: "skipped", reason: "disabled" };
       }
       try {
+        // Wake-triggered heartbeats should deliver to the last active channel.
+        // Without this override, heartbeat target defaults to "none" (since e2362d35)
+        // and messages are silently swallowed.
+        // See: https://github.com/openclaw/openclaw/issues/38059
+        const heartbeatOverride = { ...targetAgent.heartbeat, target: "last" as const };
         const res = await runOnce({
           cfg: state.cfg,
           agentId: targetAgent.agentId,
-          heartbeat: targetAgent.heartbeat,
+          heartbeat: heartbeatOverride,
           reason,
           sessionKey: requestedSessionKey,
           deps: { runtime: state.runtime },
@@ -1158,10 +1163,12 @@ export function startHeartbeatRunner(opts: {
 
       let res: HeartbeatRunResult;
       try {
+        // Apply same target override for broadcast heartbeats
+        const heartbeatOverride = { ...agent.heartbeat, target: "last" as const };
         res = await runOnce({
           cfg: state.cfg,
           agentId: agent.agentId,
-          heartbeat: agent.heartbeat,
+          heartbeat: heartbeatOverride,
           reason,
           deps: { runtime: state.runtime },
         });
