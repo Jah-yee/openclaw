@@ -86,26 +86,36 @@ describe("resolveExecTarget", () => {
     });
   });
 
-  it("rejects host overrides when configured host is auto", () => {
-    expect(() =>
+  it("allows explicit node request when configured host is auto", () => {
+    expect(
       resolveExecTarget({
         configuredTarget: "auto",
         requestedTarget: "node",
         elevatedRequested: false,
         sandboxAvailable: false,
       }),
-    ).toThrow("exec host not allowed");
+    ).toMatchObject({
+      configuredTarget: "auto",
+      requestedTarget: "node",
+      selectedTarget: "node",
+      effectiveHost: "node",
+    });
   });
 
-  it("also rejects gateway override when configured host is auto", () => {
-    expect(() =>
+  it("also allows gateway override when configured host is auto", () => {
+    expect(
       resolveExecTarget({
         configuredTarget: "auto",
         requestedTarget: "gateway",
         elevatedRequested: false,
         sandboxAvailable: true,
       }),
-    ).toThrow("exec host not allowed");
+    ).toMatchObject({
+      configuredTarget: "auto",
+      requestedTarget: "gateway",
+      selectedTarget: "gateway",
+      effectiveHost: "gateway",
+    });
   });
 
   it("allows explicit auto request when configured host is auto", () => {
