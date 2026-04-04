@@ -361,12 +361,19 @@ export async function resolveMatrixMentionsInMarkdown(params: {
   return state.mentions;
 }
 
+// Strip <p> tags inside <li> to convert loose lists to tight lists for clean Element rendering
+function normalizeLooseListHtml(html: string): string {
+  return html.replace(/<li>\n<p>/g, "<li>").replace(/<\/p>\n<\/li>/g, "</li>");
+}
+
 export async function renderMarkdownToMatrixHtmlWithMentions(params: {
   markdown: string;
   client: MatrixClient;
 }): Promise<{ html?: string; mentions: MatrixMentions }> {
   const state = await resolveMarkdownMentionState(params);
-  const html = md.renderer.render(state.tokens, md.options, {}).trimEnd();
+  let html = md.renderer.render(state.tokens, md.options, {}).trimEnd();
+  // Convert loose lists (items separated by blank lines) to tight lists
+  html = normalizeLooseListHtml(html);
   return {
     html: html || undefined,
     mentions: state.mentions,
