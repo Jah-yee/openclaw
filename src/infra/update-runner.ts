@@ -669,6 +669,7 @@ export async function runGatewayUpdate(opts: UpdateRunnerOptions = {}): Promise<
       }
 
       let selectedSha: string | null = null;
+      let lastFailureReason: string | null = null;
       try {
         for (const sha of candidates) {
           const shortSha = sha.slice(0, 8);
@@ -695,6 +696,7 @@ export async function runGatewayUpdate(opts: UpdateRunnerOptions = {}): Promise<
           );
           steps.push(depsStep);
           if (depsStep.exitCode !== 0) {
+            lastFailureReason = `preflight deps install failed: ${depsStep.stderrTail || depsStep.stdoutTail || `exit code ${depsStep.exitCode}`}`;
             continue;
           }
 
@@ -707,6 +709,7 @@ export async function runGatewayUpdate(opts: UpdateRunnerOptions = {}): Promise<
           );
           steps.push(buildStep);
           if (buildStep.exitCode !== 0) {
+            lastFailureReason = `preflight build failed: ${buildStep.stderrTail || buildStep.stdoutTail || `exit code ${buildStep.exitCode}`}`;
             continue;
           }
 
@@ -719,6 +722,7 @@ export async function runGatewayUpdate(opts: UpdateRunnerOptions = {}): Promise<
           );
           steps.push(lintStep);
           if (lintStep.exitCode !== 0) {
+            lastFailureReason = `preflight lint failed: ${lintStep.stderrTail || lintStep.stdoutTail || `exit code ${lintStep.exitCode}`}`;
             continue;
           }
 
@@ -742,11 +746,15 @@ export async function runGatewayUpdate(opts: UpdateRunnerOptions = {}): Promise<
       }
 
       if (!selectedSha) {
+        // Include actionable failure reason if available
+        const finalReason = lastFailureReason
+          ? `preflight-no-good-commit: ${lastFailureReason}`
+          : "preflight-no-good-commit";
         return {
           status: "error",
           mode: "git",
           root: gitRoot,
-          reason: "preflight-no-good-commit",
+          reason: finalReason,
           before: { sha: beforeSha, version: beforeVersion },
           steps,
           durationMs: Date.now() - startedAt,
