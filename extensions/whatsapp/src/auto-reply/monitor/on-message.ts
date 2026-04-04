@@ -84,9 +84,12 @@ export function createWebOnMessageHandler(params: {
           })
         : route.sessionKey;
 
-    // Same-phone mode logging retained
+    // Self-message loop prevention: when sending to oneself, WhatsApp echoes the
+    // outbound message back as inbound from===to. This would cause an infinite
+    // reply loop since echo detection may fail (different message IDs).
     if (msg.from === msg.to) {
-      logVerbose(`📱 Same-phone mode detected (from === to: ${msg.from})`);
+      logVerbose(`📱 Skipping self-message (from === to: ${msg.from}) to prevent infinite loop`);
+      return;
     }
 
     // Skip if this is a message we just sent (echo detection)
