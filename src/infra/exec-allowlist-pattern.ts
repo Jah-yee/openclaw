@@ -33,7 +33,10 @@ function compileGlobRegex(pattern: string): RegExp {
 
   let regex = "^";
   let i = 0;
-  while (i < pattern.length) {
+  const len = pattern.length;
+  // Track if pattern ends with a trailing star (which should match anything, including slashes)
+  let trailingStar = false;
+  while (i < len) {
     const ch = pattern[i];
     if (ch === "*") {
       const next = pattern[i + 1];
@@ -42,7 +45,13 @@ function compileGlobRegex(pattern: string): RegExp {
         i += 2;
         continue;
       }
-      regex += "[^/]*";
+      // Check if this is a trailing star - if so, allow matching any characters including /
+      trailingStar = i === len - 1;
+      if (trailingStar) {
+        regex += ".*";
+      } else {
+        regex += "[^/]*";
+      }
       i += 1;
       continue;
     }
@@ -54,7 +63,10 @@ function compileGlobRegex(pattern: string): RegExp {
     regex += escapeRegExpLiteral(ch);
     i += 1;
   }
-  regex += "$";
+  // Only append $ anchor if no trailing star
+  if (!trailingStar) {
+    regex += "$";
+  }
 
   const compiled = new RegExp(regex, process.platform === "win32" ? "i" : "");
   if (globRegexCache.size >= GLOB_REGEX_CACHE_LIMIT) {

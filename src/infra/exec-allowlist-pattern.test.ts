@@ -24,6 +24,20 @@ describe("matchesExecAllowlistPattern", () => {
     expect(matchesExecAllowlistPattern(pattern, target)).toBe(expected);
   });
 
+  it.each([
+    // Trailing star should match anything including slashes (for exec command patterns like "python3 *")
+    { pattern: "python3 *", target: "python3 /path/to/script.py", expected: true },
+    { pattern: "python3 *", target: "python3 script.py", expected: true },
+    { pattern: "python3 *", target: "python3 -c 'print(1)'", expected: true },
+    { pattern: "bash *", target: "bash /tmp/script.sh", expected: true },
+    { pattern: "bash *", target: "bash -c \"echo hi\"", expected: true },
+    // Non-trailing star should still restrict to non-slash
+    { pattern: "/tmp/*/tool", target: "/tmp/a/tool", expected: true },
+    { pattern: "/tmp/*/tool", target: "/tmp/a/b/tool", expected: false },
+  ])("trailing star matches any characters including slashes for %j", ({ pattern, target, expected }) => {
+    expect(matchesExecAllowlistPattern(pattern, target)).toBe(expected);
+  });
+
   it("expands home-prefix patterns", () => {
     const prevOpenClawHome = process.env.OPENCLAW_HOME;
     const prevHome = process.env.HOME;
