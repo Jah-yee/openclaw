@@ -20997,7 +20997,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
           },
           channelStaleEventThresholdMinutes: {
             type: "integer",
-            minimum: 1,
+            minimum: 5,
             maximum: 9007199254740991,
             title: "Gateway Channel Stale Event Threshold (min)",
             description:
@@ -21005,7 +21005,7 @@ export const GENERATED_BASE_CONFIG_SCHEMA: BaseConfigSchemaResponse = {
           },
           channelMaxRestartsPerHour: {
             type: "integer",
-            minimum: 1,
+            minimum: 0,
             maximum: 9007199254740991,
             title: "Gateway Channel Max Restarts Per Hour",
             description:
