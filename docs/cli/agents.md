@@ -178,7 +178,7 @@ Options:
 - `--name <name>`
 - `--theme <theme>`
 - `--emoji <emoji>`
-- `--avatar <value>`
+- `--avatar <value>` (workspace-relative path, http(s) URL, or data URI; max 2MB)
 - `--json`
 
 Notes:
